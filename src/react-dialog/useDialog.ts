@@ -1,16 +1,16 @@
 import { useCallback, useContext, useEffect } from 'react'
 
-import { UseConfirmProps, UseConfirmOptions, UseConfirm } from './types'
+import { UseDialogProps, UseDialogOptions, UseDialog } from './types'
 
-import ConfirmationContext from './context'
+import DialogContext from './context'
 
 import observer from '../utils/Observer'
 
-export function useConfirm (
-  { ok, cancel }: UseConfirmProps,
-  options: UseConfirmOptions = { close: true }
-): UseConfirm {
-  const context = useContext(ConfirmationContext)
+export function useDialog (
+  { ok, cancel }: UseDialogProps,
+  options: UseDialogOptions = { close: true }
+): UseDialog {
+  const context = useContext(DialogContext)
 
   if (!context) {
     throw new Error('useConfirm needs to be inside a ConfirmationProvider')

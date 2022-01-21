@@ -1,6 +1,6 @@
 {
-  "name": "react-confirm",
-  "version": "1.0.0",
+  "name": "react-dialog",
+  "version": "0.1.0",
   "description": "",
   "keywords": [
     "react",
@@ -32,7 +32,7 @@
     "webpack-cli": "^4.8.0"
   },
   "scripts": {
-    "build": "eslint --fix&&tsc",
+    "build": "tsc",
     "lint": "eslint --fix"
   },
   "peerDependencies": {

@@ -1,1 +1,1 @@
-export * from './react-confirm'
+export * from './react-dialog'

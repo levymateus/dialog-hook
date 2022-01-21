@@ -2,20 +2,20 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import ReactDOM from 'react-dom'
 
-import { HandlerRef, ConfirmationProviderProps } from './types'
+import { HandlerRef, DialogProviderProps } from './types'
 
 import withHandle from './withHandle'
 
-import ConfirmationContext from './context'
+import DialogContext from './context'
 
 /**
  * Provider
  */
-export const ConfirmationProvider = ({
+export const DialogProvider = ({
   parent,
   children,
   Component
-}: ConfirmationProviderProps) => {
+}: DialogProviderProps) => {
   const [show, setShow] = useState(false)
   const [props, setProps] = useState<unknown>()
   const containerRef = useRef<HTMLElement | null>(null)
@@ -51,7 +51,7 @@ export const ConfirmationProvider = ({
   useEffect(() => () => container?.remove(), [container])
 
   return (
-    <ConfirmationContext.Provider
+    <DialogContext.Provider
       value={{
         show,
         setShow: setShowFn,
@@ -65,6 +65,6 @@ export const ConfirmationProvider = ({
           container
         )}
       {children}
-    </ConfirmationContext.Provider>
+    </DialogContext.Provider>
   )
 }

@@ -1,11 +1,11 @@
 import React from 'react'
 
-export type UseConfirmProps = {
+export type UseDialogProps = {
   ok?: unknown | null;
   cancel?: unknown | null;
 };
 
-export type UseConfirmOptions = {
+export type UseDialogOptions = {
   /**
    * Close after button click
    */
@@ -16,7 +16,7 @@ export type UseConfirmOptions = {
  * Confirmation function.
  * @param {*} props - The component props
  */
-export type UseConfirm = <P = any>(
+export type UseDialog = <P = any>(
   props: P
 ) => Promise<undefined | unknown | null>;
 
@@ -41,7 +41,7 @@ export interface HandlerRef {
   cancel: Handler;
 }
 
-export type ConfirmationContextProps = {
+export type DialogContextProps = {
   show: boolean;
   setShow?: (value: boolean) => void;
   setProps?: (props: any) => void;
@@ -52,7 +52,7 @@ export type WrapperComponent =
   | React.FC<any>
   | (<P = any>(props: P) => React.ReactNode);
 
-export type ConfirmationProviderProps = {
+export type DialogProviderProps = {
   /**
    * The parent element to render the component.
    */
