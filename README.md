@@ -1,11 +1,23 @@
-# react-dialog
+# dialog-hook
 
-react-dialog is a custom react hook to use a dialog easily.
+The dialog-hook is a custom react hook to use a dialog easily.
 <br/>
+
+First of all it is necessary to install the package in your project some command lines.
+
+If you using npm
+```
+npm i dialog-hook
+```
+
+If you using yarn
+```
+yarn add dialog-hook
+```
 
 ## Documentation
 
-To use react-dialog follow the documentation.
+To use dialog-hook follow the documentation.
 
 ### **useDialog**
 
@@ -43,18 +55,17 @@ export type UseDialogOptions = {
 Take this simple example o use:
 
 ```javascript
-import { useDialog } from 'react-dialog'
+import { useDialog } from 'dialog-hook'
 
 function MyComponent() {
   const confirm = useDialog({
-    ok: 'ok',
-	cancel: 'cancel'
+    ok: 'ok', cancel: 'cancel'
   })
 
   function handleClick () {
     confirm({ message: 'Are you ok?' })
 	  .then(console.log)
-        .catch(console.log)
+    .catch(console.log)
   }
 
   return <button onClick={handleClick}>
@@ -63,12 +74,12 @@ function MyComponent() {
 }
 ```
 On you custom dialog component you need to add two buttons with name 'cancel' and 'ok'.
-The react-dialog listen this two buttons by then name and handles a promise about this.
+The dialog-hook listen this two buttons by then name and handles a promise about this.
 
 Then in the root o the app, you should use the provider.
 
 ```javascript
-import { DialogProvider } from 'react-dialog'
+import { DialogProvider } from 'dialog-hook'
 
 function MyDialog({ message }) {
   return <>
@@ -85,5 +96,7 @@ function App() {
   </DialogProvider>
 }
 ```
+
+Take this example live in CodeSandbox: https://codesandbox.io/s/dialog-hook-example-1-c71uk
 
 The great gain with this hook is the possibility to pass this promise in any part of your app!

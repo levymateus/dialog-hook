@@ -1,1 +1,1 @@
-export * from './react-dialog'
+export * from './dialog-hook'
