@@ -1,8 +1,13 @@
 import React from 'react'
+import { Observer } from 'src/utils/Observer'
+
+export type Props = { [key: string]: (unknown | null) } | null | undefined
+
+export type Data = { [key: string]:unknown } | null | undefined | string | number
 
 export type UseDialogProps = {
-  ok?: unknown | null;
-  cancel?: unknown | null;
+  ok?: Data;
+  cancel?: Data;
 };
 
 export type UseDialogOptions = {
@@ -12,13 +17,15 @@ export type UseDialogOptions = {
   close?: boolean;
 };
 
+export type Options = UseDialogOptions
+
 /**
  * Confirmation function.
  * @param {*} props - The component props
  */
-export type UseDialog = <P = any>(
+export type UseDialog = <P = Props>(
   props: P
-) => Promise<undefined | unknown | null>;
+) => Promise<Data>;
 
 export type EventType = 'click';
 
@@ -36,21 +43,22 @@ export type HandlerComponentProps = {
   container: Container;
 };
 
-export interface HandlerRef {
+export type HandlerRef = {
   ok: Handler;
   cancel: Handler;
 }
 
 export type DialogContextProps = {
   show: boolean;
-  setShow?: (value: boolean) => void;
-  setProps?: (props: any) => void;
+  setShow: (value: boolean) => void;
+  setProps: (props: Props) => void;
   alertRef: React.RefObject<HandlerRef>;
+  observer: Observer<Data>
 };
 
 export type WrapperComponent =
-  | React.FC<any>
-  | (<P = any>(props: P) => React.ReactNode);
+  | React.FC<Props>
+  | (<P = Props>(props: P) => React.ReactNode);
 
 export type DialogProviderProps = {
   /**

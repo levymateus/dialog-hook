@@ -1,10 +1,8 @@
 import { useCallback, useContext, useEffect } from 'react'
 
-import { UseDialogProps, UseDialogOptions, UseDialog } from './types'
+import { UseDialogProps, UseDialogOptions, UseDialog, Props, Options, Data } from './types'
 
 import DialogContext from './context'
-
-import observer from '../utils/Observer'
 
 export function useDialog (
   { ok, cancel }: UseDialogProps,
@@ -16,37 +14,39 @@ export function useDialog (
     throw new Error('useConfirm needs to be inside a ConfirmationProvider')
   }
 
+  const { setProps, setShow, observer, alertRef, show } = context
+
   const confirmation = useCallback(
-    (data, options) => () => {
-      if (options.close && context.setShow) context.setShow(false)
+    (data: Data, options: Options) => () => {
+      if (options.close) setShow(false)
       observer.notify('ok', data)
     },
-    [context]
+    [setShow, observer]
   )
 
   const cancelation = useCallback(
-    (data, options) => () => {
-      if (options.close && context.setShow) context.setShow(false)
+    (data: Data, options: Options) => () => {
+      if (options.close) setShow(false)
       observer.notify('cancel', data)
     },
-    [context]
+    [setShow, observer]
   )
 
   useEffect(() => {
-    const alert = context.alertRef.current
-    if (context.show && alert) {
+    const alert = alertRef.current
+    if (show && alert) {
       alert.ok('click', confirmation(ok, options))
       alert.cancel('click', cancelation(cancel, options))
     }
-  }, [context, options, ok, cancel, confirmation, cancelation])
+  }, [alertRef, show, options, ok, cancel, confirmation, cancelation])
 
-  function confirm<P = any> (props: P) {
-    if (context.setShow) context.setShow(true)
-    if (context.setProps) context.setProps(props)
+  const confirm: UseDialog = (props) => {
+    setShow(true)
+    setProps(props as unknown as Props)
 
-    const onOk = new Promise(resolve => observer.subscribe('ok', resolve))
+    const onOk = new Promise<Data>((resolve) => observer.subscribe('ok', resolve))
 
-    const onCancel = new Promise((resolve, reject) =>
+    const onCancel = new Promise<Data>((resolve, reject) =>
       observer.subscribe('cancel', reject)
     )
 

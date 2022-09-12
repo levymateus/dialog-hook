@@ -2,11 +2,11 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import ReactDOM from 'react-dom'
 
-import { HandlerRef, DialogProviderProps } from './types'
+import { HandlerRef, DialogProviderProps, Props } from './types'
 
 import withHandle from './withHandle'
 
-import DialogContext from './context'
+import DialogContext, { observer } from './context'
 
 /**
  * Provider
@@ -15,9 +15,9 @@ export const DialogProvider = ({
   parent,
   children,
   Component
-}: DialogProviderProps) => {
+}: DialogProviderProps): React.ReactNode => {
   const [show, setShow] = useState(false)
-  const [props, setProps] = useState<unknown>()
+  const [props, setProps] = useState<Props>()
   const containerRef = useRef<HTMLElement | null>(null)
   const alertRef = useRef<HandlerRef>(null)
 
@@ -43,7 +43,7 @@ export const DialogProvider = ({
     [setShow, parent]
   )
 
-  const setPropsFn = useCallback((props: any) => setProps(props), [])
+  const setPropsFn = useCallback((props: Props) => setProps(props), [])
 
   const container = containerRef.current
   const RenderComponent = withHandle(Component, containerRef)
@@ -56,7 +56,8 @@ export const DialogProvider = ({
         show,
         setShow: setShowFn,
         setProps: setPropsFn,
-        alertRef
+        alertRef,
+        observer
       }}
     >
       {container &&
