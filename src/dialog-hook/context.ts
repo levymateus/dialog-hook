@@ -1,5 +1,5 @@
 import { createContext } from 'react'
-import { Observer } from 'src/utils/Observer'
+import { Observer } from '../utils/Observer'
 
 import { DialogContextProps, Data } from './types'
 
