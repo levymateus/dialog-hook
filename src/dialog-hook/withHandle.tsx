@@ -1,20 +1,17 @@
 // eslint-disable-next-line no-use-before-define
-import React, { forwardRef, ForwardRefRenderFunction, FC, ReactNode } from 'react'
+import React, { forwardRef, FC, ReactNode } from 'react'
 
-import { HandlerRef, Container, WrapperComponent } from './types'
+import { HandlerRef, Container, WrapperComponent, Props } from './types'
 
 import Handle from './Handle'
 
-const withHandle = (Wrapper: WrapperComponent, container: Container) => {
-  const Component: ForwardRefRenderFunction<HandlerRef, any> = (
-    { ...props },
-    ref
-  ) => {
-    const render = (): ReactNode => {
+const withHandle = (Wrapper: WrapperComponent, container: Container): ReturnType<typeof forwardRef> => {
+  const Component = forwardRef<HandlerRef, Props>(({ ...props }, ref) => {
+    const render = (): React.ReactNode => {
       if (typeof Wrapper === 'function') {
         return Wrapper({ ...props }) as ReactNode
       }
-      const RenderComponent = Wrapper as FC<any>
+      const RenderComponent = Wrapper as FC<Props>
       return <RenderComponent {...props} />
     }
     const children = render()
@@ -23,8 +20,11 @@ const withHandle = (Wrapper: WrapperComponent, container: Container) => {
         {children}
       </Handle>
     )
-  }
-  return forwardRef(Component)
+  })
+
+  Component.displayName = `${(Wrapper as React.FC).displayName}Wrapped`
+
+  return Component as ReturnType<typeof forwardRef>
 }
 
 export default withHandle
